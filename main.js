@@ -25,18 +25,19 @@ do {
     var prixTotalHT = prix * quantite
     console.log("Prix total HT : " + prixTotalHT + "€");
 
-    readline.question(`Quel pourcentage de TVA souhaitez-vous appliquer ? (en %) `, tva => {
-        var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
-        console.log('Prix total TTC : ' + prixTotalTTC + " €");
+    var tva = readlineSync.question(`Quel pourcentage de TVA souhaitez-vous appliquer ? (en %) `);
+    var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
+    console.log('Prix total TTC : ' + prixTotalTTC + " €");
 
-        readline.close();
-    });
-    //}
     produits.push({ prixHT: prixTotalHT, prixTTC: prixTotalTTC });
     var continuer = readlineSync.question('Voulez vous ajouter un autre produit ? (oui/non)');
     if (continuer != "oui") {
         keep = false;
     }
+    console.log('Taux de réduction : 0%');
+    //var prixTotalTTCWithReduc = prixTotalTTC * reduction
+    console.log('Prix total TTC après réduction : ' + +" €");
+
 } while (keep);
 
 var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => prev + next);
