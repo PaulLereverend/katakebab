@@ -10,28 +10,32 @@ const readline = require('readline').createInterface({
 var keep = true;
 console.log('Taux de réduction');
 tauxReduc.forEach(tr => {
-    console.log("Taux : " + tr.taux + "€ => " + tr.reduc + "%");
+    console.log("Taux : >" + tr.taux + "€ => " + tr.reduc + "%");
 });
 console.log('Code TVA');
 codesEtat.forEach(tva => {
-    console.log("Code : " + tva.code + " => " + tva.val + "%");
+    console.log("Code état : " + tva.code + " => Taux de TVA : " + tva.val + "%");
 });
 var produits = [];
 do {
-    var prix = readlineSync.question(`Quel est le prix unitaire du produit ? `);
+    var nomProduit = readlineSync.question(`Quel est l'intitulé du produit ?`);
+
+    var prix = readlineSync.question(`Quel est le prix unitaire du produit ? `, {
+        mask: false
+    });
     //if (!inputError(prix, "number")) {
     var quantite = readlineSync.question(`Quelle quantitié ? `);
     //if (!inputError(quantite, "number")) {
     var prixTotalHT = prix * quantite
-    console.log("Prix total HT : " + prixTotalHT + "€");
+    console.log("Prix HT : " + prixTotalHT + "€");
 
     var codeEtat = readlineSync.question('Quel est le code de l\'etat ?');
     var tva = codesEtat.find(el => el.code == codeEtat).val;
 
     var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
-    console.log('Prix total TTC : ' + prixTotalTTC + " €");
+    console.log('Prix TTC : ' + prixTotalTTC + " €");
 
-    produits.push({ prixHT: prixTotalHT, prixTTC: prixTotalTTC });
+    produits.push({ nomProduit: nomProduit, prixHT: prixTotalHT, prixTTC: prixTotalTTC });
     var continuer = readlineSync.question('Voulez vous ajouter un autre produit ? (oui/non)');
     if (continuer != "oui") {
         keep = false;
@@ -41,8 +45,14 @@ do {
 
 var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => prev + next);
 
-
-console.log("Prix total TTC :" + sommeTTC);
+console.log('');
+produits.forEach(produit => {
+    console.log(produit.nomProduit + ": " + produit.prixHT + "€ HT / " + produit.prixTTC + "€ TTC");
+});
+console.log('');
+console.log('---------------');
+console.log('');
+console.log("Prix total TTC :" + sommeTTC + "€");
 
 tauxReduc.sort((a, b) => a.taux < b.taux ? 1 : -1)
 for (let i = 0; i < tauxReduc.length; i++) {
