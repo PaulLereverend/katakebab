@@ -1,5 +1,6 @@
 var tauxReduc = require('./reduc.json');
 var tva = require('./tva.json');
+var readlineSync = require('readline-sync');
 
 const readline = require('readline').createInterface({
     input: process.stdin,
@@ -15,6 +16,7 @@ console.log('Code TVA');
 tva.forEach(tva => {
     console.log("Code : " + tva.code + " => " + tva.val + "%");
 });
+var produits = [];
 do {
     var prix = readlineSync.question(`Quel est le prix unitaire du produit ? `);
     //if (!inputError(prix, "number")) {
@@ -30,13 +32,15 @@ do {
         readline.close();
     });
     //}
-
+    produits.push({ prixHT: prixTotalHT, prixTTC: prixTotalTTC });
     var continuer = readlineSync.question('Voulez vous ajouter un autre produit ? (oui/non)');
     if (continuer != "oui") {
         keep = false;
     }
 } while (keep);
-console.log()
+
+var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => prev + next);
+console.log("Prix total TTC :" + sommeTTC);
 
 
 
