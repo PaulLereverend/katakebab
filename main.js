@@ -6,6 +6,7 @@ const readline = require('readline').createInterface({
     output: process.stdout
 })
 
+var keep = true;
 console.log('Taux de réduction');
 tauxReduc.forEach(tr => {
     console.log("Taux : " + tr.taux + "€ => " + tr.reduc + "%");
@@ -14,25 +15,21 @@ console.log('Code TVA');
 tva.forEach(tva => {
     console.log("Code : " + tva.code + " => " + tva.val + "%");
 });
-
-readline.question(`Quel est le prix unitaire du produit ? `, prix => {
+do {
+    var prix = readlineSync.question(`Quel est le prix unitaire du produit ? `);
     //if (!inputError(prix, "number")) {
-    readline.question(`Quelle quantitié ? `, quantite => {
-        //if (!inputError(quantite, "number")) {
-        var prixTotalHT = prix * quantite
-        console.log("Prix total HT : " + prixTotalHT + "€");
-
-        readline.question(`Quel pourcentage de TVA souhaitez-vous appliquer ? (en %) `, tva => {
-            var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
-            console.log('Prix total TTC : ' + prixTotalTTC + " €");
-
-            readline.close();
-        });
-        //}
-    });
+    var quantite = readlineSync.question(`Quelle quantitié ? `);
+    //if (!inputError(quantite, "number")) {
+    console.log("Le prix total est de : " + prix * quantite + "€");
+    //}
     //}
 
-});
+    var continuer = readlineSync.question('Voulez vous ajouter un autre produit ? (oui/non)');
+    if (continuer != "oui") {
+        keep = false;
+    }
+} while (keep);
+console.log()
 
 
 
