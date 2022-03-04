@@ -32,7 +32,7 @@ do {
     var codeEtat = readlineSync.question('Quel est le code de l\'etat ?');
     var tva = codesEtat.find(el => el.code == codeEtat).val;
 
-    var prixTotalTTC = (prixTotalHT * (tva / 100 + 1)).toFixed(2)
+    var prixTotalTTC = Number((prixTotalHT * (tva / 100 + 1)).toFixed(2));
     console.log('Prix TTC : ' + prixTotalTTC + " €");
 
     produits.push({ nomProduit: nomProduit, prixHT: prixTotalHT, prixTTC: prixTotalTTC, quantite: quantite });
@@ -47,7 +47,7 @@ var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => p
 
 console.log('');
 produits.forEach(produit => {
-    console.log(produit.quantite + " " + produit.nomProduit + ": " + produit.prixHT + "€ HT / " + produit.prixTTC + "€ TTC");
+    console.log(produit.nomProduit + ' (qte : ' + produit.quantite + ')' + ": " + produit.prixHT + "€ HT / " + produit.prixTTC + "€ TTC");
 });
 console.log('');
 console.log('---------------');
@@ -59,7 +59,7 @@ for (let i = 0; i < tauxReduc.length; i++) {
     const tr = tauxReduc[i];
     if (sommeTTC > tr.taux) {
         sommeTTC -= sommeTTC * (tr.reduc / 100);
-        console.log('Prix total TTC après réduction : ' + sommeTTC.toFixed(2) + " €");
+        console.log('Prix total TTC après réduction de ' + tr.reduc + '% : ' + sommeTTC.toFixed(2) + " €");
         break
     }
 }
