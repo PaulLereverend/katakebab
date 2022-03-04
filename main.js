@@ -40,12 +40,12 @@ do {
 var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => prev + next);
 console.log("Prix total TTC :" + sommeTTC);
 
-console.log('Taux de réduction : 0%');
+console.log('Taux de réduction : 10%');
 var reduction = 10;
 if (reduction > 0) {
     var prixTotalTTCWithReduc = sommeTTC - sommeTTC * (reduction / 100)
+    console.log('Prix total TTC après réduction : ' + prixTotalTTCWithReduc + " €");
 }
-console.log('Prix total TTC après réduction : ' + prixTotalTTCWithReduc + " €");
 
 
 
