@@ -1,5 +1,5 @@
 var tauxReduc = require('./reduc.json');
-var tva = require('./tva.json');
+var codesEtat = require('./tva.json');
 var readlineSync = require('readline-sync');
 
 const readline = require('readline').createInterface({
@@ -13,7 +13,7 @@ tauxReduc.forEach(tr => {
     console.log("Taux : " + tr.taux + "€ => " + tr.reduc + "%");
 });
 console.log('Code TVA');
-tva.forEach(tva => {
+codesEtat.forEach(tva => {
     console.log("Code : " + tva.code + " => " + tva.val + "%");
 });
 var produits = [];
@@ -25,7 +25,9 @@ do {
     var prixTotalHT = prix * quantite
     console.log("Prix total HT : " + prixTotalHT + "€");
 
-    var tva = readlineSync.question(`Quel pourcentage de TVA souhaitez-vous appliquer ? (en %) `);
+    var codeEtat = readlineSync.question('Quel est le code de l\'etat ?');
+    var tva = codesEtat.find(el => el.code == codeEtat).val;
+
     var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
     console.log('Prix total TTC : ' + prixTotalTTC + " €");
 
@@ -38,6 +40,8 @@ do {
 } while (keep);
 
 var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => prev + next);
+
+
 console.log("Prix total TTC :" + sommeTTC);
 
 var reduction = readlineSync.question(`Taux de réduction ? (en %) `);
