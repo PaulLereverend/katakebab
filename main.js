@@ -35,7 +35,7 @@ do {
     var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
     console.log('Prix TTC : ' + prixTotalTTC + " €");
 
-    produits.push({ nomProduit: nomProduit, prixHT: prixTotalHT, prixTTC: prixTotalTTC });
+    produits.push({ nomProduit: nomProduit, prixHT: prixTotalHT, prixTTC: prixTotalTTC, quantite: quantite });
     var continuer = readlineSync.question('Voulez vous ajouter un autre produit ? (oui/non)');
     if (continuer != "oui") {
         keep = false;
@@ -47,7 +47,7 @@ var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => p
 
 console.log('');
 produits.forEach(produit => {
-    console.log(produit.nomProduit + ": " + produit.prixHT + "€ HT / " + produit.prixTTC + "€ TTC");
+    console.log(produit.quantite + " " + produit.nomProduit + ": " + produit.prixHT + "€ HT / " + produit.prixTTC + "€ TTC");
 });
 console.log('');
 console.log('---------------');
