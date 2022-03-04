@@ -44,13 +44,15 @@ var sommeTTC = produits.map(produit => produit.prixTTC).reduce((prev, next) => p
 
 console.log("Prix total TTC :" + sommeTTC);
 
-var reduction = readlineSync.question(`Taux de réduction ? (en %) `);
-if (reduction > 0) {
-    var prixTotalTTCWithReduc = sommeTTC - sommeTTC * (reduction / 100)
-    console.log('Prix total TTC après réduction : ' + prixTotalTTCWithReduc + " €");
+tauxReduc.sort((a, b) => a.taux < b.taux ? 1 : -1)
+for (let i = 0; i < tauxReduc.length; i++) {
+    const tr = tauxReduc[i];
+    if (sommeTTC > tr.taux) {
+        sommeTTC -= sommeTTC * (tr.reduc / 100);
+        console.log('Prix total TTC après réduction : ' + sommeTTC + " €");
+        break
+    }
 }
-
-
 
 function inputError(element, typeWanted) {
     console.log(typeof element);
