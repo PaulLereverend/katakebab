@@ -20,8 +20,15 @@ do {
     //if (!inputError(prix, "number")) {
     var quantite = readlineSync.question(`Quelle quantitié ? `);
     //if (!inputError(quantite, "number")) {
-    console.log("Le prix total est de : " + prix * quantite + "€");
-    //}
+    var prixTotalHT = prix * quantite
+    console.log("Prix total HT : " + prixTotalHT + "€");
+
+    readline.question(`Quel pourcentage de TVA souhaitez-vous appliquer ? (en %) `, tva => {
+        var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
+        console.log('Prix total TTC : ' + prixTotalTTC + " €");
+
+        readline.close();
+    });
     //}
 
     var continuer = readlineSync.question('Voulez vous ajouter un autre produit ? (oui/non)');
