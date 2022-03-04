@@ -26,13 +26,13 @@ do {
     //if (!inputError(prix, "number")) {
     var quantite = readlineSync.question(`Quelle quantitié ? `);
     //if (!inputError(quantite, "number")) {
-    var prixTotalHT = prix * quantite
+    var prixTotalHT = (prix * quantite).toFixed(2)
     console.log("Prix HT : " + prixTotalHT + "€");
 
     var codeEtat = readlineSync.question('Quel est le code de l\'etat ?');
     var tva = codesEtat.find(el => el.code == codeEtat).val;
 
-    var prixTotalTTC = prixTotalHT * (tva / 100 + 1)
+    var prixTotalTTC = (prixTotalHT * (tva / 100 + 1)).toFixed(2)
     console.log('Prix TTC : ' + prixTotalTTC + " €");
 
     produits.push({ nomProduit: nomProduit, prixHT: prixTotalHT, prixTTC: prixTotalTTC, quantite: quantite });
@@ -59,7 +59,7 @@ for (let i = 0; i < tauxReduc.length; i++) {
     const tr = tauxReduc[i];
     if (sommeTTC > tr.taux) {
         sommeTTC -= sommeTTC * (tr.reduc / 100);
-        console.log('Prix total TTC après réduction : ' + sommeTTC + " €");
+        console.log('Prix total TTC après réduction : ' + sommeTTC.toFixed(2) + " €");
         break
     }
 }
